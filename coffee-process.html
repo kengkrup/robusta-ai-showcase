@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>จากผลโรบัสตาสู่กาแฟในแก้ว</title>
+<style>
+/* ===========================================
+   FIXED 16:9 STAGE: MANDATORY BASE STYLES
+   Include this ENTIRE file in every presentation.
+   Slides are authored at 1920×1080 and scaled as a whole.
+   =========================================== */
+
+/* 1. Lock the browser viewport */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+
+/* 2. Full-window deck viewport */
+.deck-viewport {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+
+/* 3. Fixed 16:9 design canvas.
+   JavaScript sets transform: translate(...) scale(...). */
+.deck-stage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    transform-origin: 0 0;
+    background: var(--slide-bg, #fff);
+}
+
+/* 4. Slides stack inside the fixed stage.
+   Content must be laid out at 1920×1080, not reflowed per device. */
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: var(--slide-bg, #fff);
+}
+
+.slide.active,
+.slide.visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+/* 5. Keep media inside authored slide bounds */
+img,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 6. Presentation chrome stays outside the slide design system */
+.deck-controls {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+/* 7. Print one fixed-size slide per page */
+@media print {
+    html,
+    body {
+        width: 1920px;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+    }
+
+    .deck-viewport {
+        position: static;
+        overflow: visible;
+        background: #fff;
+    }
+
+    .deck-stage {
+        position: static;
+        width: auto;
+        height: auto;
+        transform: none !important;
+        background: none;
+    }
+
+    .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+    }
+
+    .slide:last-child {
+        break-after: auto;
+        page-break-after: auto;
+    }
+
+    .deck-controls {
+        display: none !important;
+    }
+}
+
+/* 8. Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+    }
+}
+
+*{box-sizing:border-box}
+body{font:20px system-ui,sans-serif}
+.slide{padding:105px 132px;color:#203529;background:#f6f0e5}
+.slide.active>*{animation:reveal .42s ease-out both}
+@keyframes reveal{from{opacity:0;transform:translateY(18px)}}
+.cover{display:flex;flex-direction:column;justify-content:center;color:#fff4dd;background:#172d23 linear-gradient(90deg,#172d23 34%,transparent);background-image:linear-gradient(90deg,#172d23 32%,rgba(23,45,35,.93) 54%,rgba(23,45,35,.26)),url('robusta-hero.jpg');background-size:cover,55% auto;background-position:right center;background-repeat:no-repeat}
+h1{font-size:106px;line-height:1.18;margin:0 0 36px}h2{font-size:75px;margin:0 0 30px}p{font-size:42px;line-height:1.55;max-width:1040px;margin:0 0 22px}
+.example{display:grid;grid-template-columns:640px 1fr;align-items:center;gap:96px}
+figure{margin:0;border-radius:28px;overflow:hidden;background:#203529;color:#fff4dd}
+figure img{display:block;width:100%;height:auto;object-fit:contain}
+figcaption{padding:20px 28px;font-weight:700;font-size:35px}
+ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:0}
+li{font-size:36px;line-height:1.48;padding:30px 36px;background:#fffaf0;border:2px solid #d7cdbe;border-radius:24px}
+li strong{display:block;font-size:45px}small{color:#526658}
+.source{position:absolute;bottom:70px;font-size:25px}
+.deck-controls{bottom:6px;display:flex;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:100%;padding:5px;background:#172d23;color:white;border-radius:10px;font-size:14px}
+.deck-controls a,.deck-controls button{color:#fff4dd;background:#294537;border:1px solid #829184;padding:6px 8px;border-radius:6px;font:inherit}
+button:disabled{opacity:.45}
+@media(prefers-reduced-motion:reduce){.slide.active>*{animation:none}}
+.market h3{font-size:34px;margin:0 0 12px}
+.market p{font-size:31px;max-width:1450px;margin:0 0 18px}
+.market a{color:#325c45}.market small{font-size:23px}
+.trade{padding:30px 38px;background:#fffaf0;border:2px solid #d7cdbe;border-radius:24px}
+.bars,.issues{display:block;margin:16px 0}
+.bars li{display:grid;grid-template-columns:115px 1fr 110px;align-items:center;gap:20px;padding:3px 0;border:0;background:none;font-size:30px}
+.bars li strong{font-size:30px;text-align:right}
+.bar{height:19px;background:#e8e1d3;border-radius:6px;overflow:hidden}
+.bar::before{content:"";display:block;width:var(--size);height:100%;background:#466e52}
+.bars li:last-child .bar::before{background:#886638}
+.issues li{font-size:30px;padding:12px 20px;margin:8px 0}
+.issues li strong{display:inline;font-size:30px}
+.process-slide h2{font-size:90px}
+.process-slide p{max-width:1450px}
+.process-slide h3{font-size:52px;margin:0 0 18px}
+.process-pair{display:grid;grid-template-columns:1fr 1fr;gap:35px;align-items:start}
+.process-pair>div,.stage-note{background:#fffaf0;border:2px solid #d7cdbe;border-radius:24px;padding:32px 38px}
+.stage-note{font-size:43px;margin-top:30px}
+.process-slide a{color:#244838}
+figure .process-mask{height:auto;object-fit:contain}
+.journey{color:#f1cf93;font-size:36px;margin-top:25px}
+</style>
+</head>
+<body>
+<main class="deck-viewport">
+<div class="deck-stage"><section class="slide cover active">
+<h1>จากผลโรบัสตา<br>สู่กาแฟในแก้ว</h1>
+<p>ผลกาแฟสุกผ่านการแปรรูปและคัดคุณภาพ ก่อนนำเมล็ดไปคั่ว บด และชง</p>
+<p class="journey">เก็บผลสุก · แปรรูป · สีและคัด · คั่ว · บดและชง</p>
+</section>
+<section class="slide process-slide">
+<h2>เก็บและคัดผลกาแฟสุก</h2>
+<p>เมล็ดกาแฟอยู่ภายในผลที่เรียกว่าเชอร์รี เมื่อผลโรบัสตาสุกและเปลี่ยนเป็นสีส้มหรือแดง จึงเก็บเพื่อนำไปแปรรูป</p>
+<div class="stage-note"><strong>สิ่งที่ได้</strong><br>ผลกาแฟสดที่ผ่านการคัดเบื้องต้น</div>
+</section>
+<section class="slide process-slide">
+<h2>แปรรูปและลดความชื้น</h2>
+<div class="process-pair">
+<div><h3>แบบแห้ง</h3><p>ตากผลกาแฟทั้งผลให้แห้ง แล้วสีเอาเปลือกแห้งออก</p></div>
+<div><h3>แบบเปียก</h3><p>ปอกเปลือกผลสด กำจัดเมือก ทำให้เมล็ดที่ยังหุ้มกะลาแห้ง แล้วสีกะลาออก</p></div>
+</div>
+<p class="stage-note"><strong>สิ่งที่ได้</strong> · สารกาแฟ หรือเมล็ดกาแฟดิบก่อนคั่ว</p>
+</section>
+<section class="slide process-slide">
+<h2>คัดคุณภาพก่อนคั่ว</h2>
+<div class="process-pair">
+<div><h3>แยกเมล็ดและสิ่งปะปน</h3><p>ตรวจลักษณะของสารกาแฟ เช่น เมล็ดดำ เมล็ดแตกหัก และเศษเปลือก</p><p>โครงการศึกษาการใช้ AI ดูภาพเพื่อช่วยระบุขอบเขตและจำแนกวัตถุในขั้นนี้</p></div>
+<figure><img class="process-mask" src="mask-examples.png" alt="ภาพตัวอย่างที่ใช้สีแสดงขอบเขตและกลุ่มของเมล็ดกาแฟ"><figcaption>ตัวอย่างภาพมาสก์ที่เตรียมไว้ล่วงหน้า</figcaption></figure>
+</div>
+</section>
+<section class="slide process-slide">
+<h2>คั่วสารกาแฟ</h2>
+<p>ความร้อนทำให้เมล็ดเปลี่ยนสีและเกิดกลิ่นรสของกาแฟคั่ว ระดับการคั่วมีผลต่อกลิ่นและรสในแก้ว</p>
+<div class="stage-note"><strong>สิ่งที่ได้</strong><br>เมล็ดกาแฟคั่วพร้อมบด</div>
+</section>
+<section class="slide process-slide">
+<h2>บดและชง</h2>
+<div class="process-pair">
+<div><h3>บดให้เหมาะกับวิธีชง</h3><p>เช่น บดละเอียดสำหรับเอสเปรสโซ หรือบดหยาบกว่าสำหรับการชงแบบกรอง</p></div>
+<div><h3>สกัดด้วยน้ำ</h3><p>น้ำสกัดสารที่ให้กลิ่นและรสจากผงกาแฟ เมื่อกรองหรือแยกกากแล้วจะได้กาแฟพร้อมดื่ม</p></div>
+</div>
+</section>
+<section class="slide process-slide">
+<h2>ย้อนดูจากต้นถึงแก้ว</h2>
+<p class="stage-note">ผลสุก → สารกาแฟ → สารกาแฟที่ผ่านการคัด → เมล็ดคั่ว → กาแฟในแก้ว</p>
+<p>ระบบ AI ของโครงการอยู่ที่ขั้นตรวจสารกาแฟก่อนคั่ว</p>
+<p><a href="https://info.doa.go.th/research/?act=view_detail&amp;id=3366">งานวิจัยการแปรรูปกาแฟโรบัสตาในชุมพร · กรมวิชาการเกษตร</a></p>
+<p><a href="index.html">อ่านเรื่องโครงการและดูตัวอย่างมาสก์ครบ 7 กลุ่ม</a></p>
+</section></div>
+</main>
+<nav class="deck-controls" aria-label="ควบคุมสไลด์">
+<a href="index.html">เว็บหน้าเดียว</a>
+<button id="prev" type="button" aria-label="หน้าก่อนหน้า">←</button>
+<span id="position" aria-live="polite"></span>
+<button id="next" type="button" aria-label="หน้าถัดไป">→</button>
+<button id="full" type="button">เต็มจอ</button>
+</nav>
+<script>
+const stage = document.querySelector('.deck-stage');
+const slides = [...document.querySelectorAll('.slide')];
+const prev = document.querySelector('#prev');
+const next = document.querySelector('#next');
+const position = document.querySelector('#position');
+const full = document.querySelector('#full');
+let current = 0;
+function fit() {
+  const height = Math.max(1, innerHeight - 52);
+  const scale = Math.min(innerWidth / 1920, height / 1080);
+  stage.style.left = (innerWidth - 1920 * scale) / 2 + 'px';
+  stage.style.top = (height - 1080 * scale) / 2 + 'px';
+  stage.style.transform = 'scale(' + scale + ')';
+}
+function show(index) {
+  current = Math.max(0, Math.min(slides.length - 1, index));
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === current);
+    slide.setAttribute('aria-hidden', String(i !== current));
+  });
+  position.textContent = (current + 1) + ' / ' + slides.length;
+  prev.disabled = current === 0;
+  next.disabled = current === slides.length - 1;
+}
+prev.onclick = () => show(current - 1);
+next.onclick = () => show(current + 1);
+full.hidden = !document.fullscreenEnabled;
+full.onclick = async () => {
+  try {
+    if (document.fullscreenElement) await document.exitFullscreen();
+    else await document.documentElement.requestFullscreen();
+  } catch {
+    full.hidden = true;
+  }
+};
+addEventListener('keydown', event => {
+  if (event.altKey || event.ctrlKey || event.metaKey) return;
+  const move = {ArrowRight: current + 1, ArrowLeft: current - 1, Home: 0, End: slides.length - 1};
+  if (Object.hasOwn(move, event.key)) {
+    event.preventDefault();
+    show(move[event.key]);
+  }
+});
+addEventListener('resize', fit);
+fit();
+show(0);
+</script>
+</body>
+</html>
+
+
+
