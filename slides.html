@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สไลด์การจำแนกเมล็ดกาแฟโรบัสตา</title>
+<style>
+/* ===========================================
+   FIXED 16:9 STAGE: MANDATORY BASE STYLES
+   Include this ENTIRE file in every presentation.
+   Slides are authored at 1920×1080 and scaled as a whole.
+   =========================================== */
+
+/* 1. Lock the browser viewport */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+
+/* 2. Full-window deck viewport */
+.deck-viewport {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+
+/* 3. Fixed 16:9 design canvas.
+   JavaScript sets transform: translate(...) scale(...). */
+.deck-stage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    transform-origin: 0 0;
+    background: var(--slide-bg, #fff);
+}
+
+/* 4. Slides stack inside the fixed stage.
+   Content must be laid out at 1920×1080, not reflowed per device. */
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: var(--slide-bg, #fff);
+}
+
+.slide.active,
+.slide.visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+/* 5. Keep media inside authored slide bounds */
+img,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 6. Presentation chrome stays outside the slide design system */
+.deck-controls {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+/* 7. Print one fixed-size slide per page */
+@media print {
+    html,
+    body {
+        width: 1920px;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+    }
+
+    .deck-viewport {
+        position: static;
+        overflow: visible;
+        background: #fff;
+    }
+
+    .deck-stage {
+        position: static;
+        width: auto;
+        height: auto;
+        transform: none !important;
+        background: none;
+    }
+
+    .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+    }
+
+    .slide:last-child {
+        break-after: auto;
+        page-break-after: auto;
+    }
+
+    .deck-controls {
+        display: none !important;
+    }
+}
+
+/* 8. Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+    }
+}
+
+*{box-sizing:border-box}
+body{font:20px system-ui,sans-serif}
+.slide{padding:105px 132px;color:#203529;background:#f6f0e5}
+.slide.active>*{animation:reveal .42s ease-out both}
+@keyframes reveal{from{opacity:0;transform:translateY(18px)}}
+.cover{display:flex;flex-direction:column;justify-content:center;color:#fff4dd;background:#172d23 linear-gradient(90deg,#172d23 34%,transparent);background-image:linear-gradient(90deg,#172d23 32%,rgba(23,45,35,.93) 54%,rgba(23,45,35,.26)),url('robusta-hero.jpg');background-size:cover,55% auto;background-position:right center;background-repeat:no-repeat}
+h1{font-size:106px;line-height:1.18;margin:0 0 36px}h2{font-size:75px;margin:0 0 30px}p{font-size:42px;line-height:1.55;max-width:1040px;margin:0 0 22px}
+.example{display:grid;grid-template-columns:640px 1fr;align-items:center;gap:96px}
+figure{margin:0;border-radius:28px;overflow:hidden;background:#203529;color:#fff4dd}
+figure img{display:block;width:100%;height:auto;object-fit:contain}
+figcaption{padding:20px 28px;font-weight:700;font-size:35px}
+ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:0}
+li{font-size:36px;line-height:1.48;padding:30px 36px;background:#fffaf0;border:2px solid #d7cdbe;border-radius:24px}
+li strong{display:block;font-size:45px}small{color:#526658}
+.source{position:absolute;bottom:70px;font-size:25px}
+.deck-controls{bottom:6px;display:flex;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:100%;padding:5px;background:#172d23;color:white;border-radius:10px;font-size:14px}
+.deck-controls a,.deck-controls button{color:#fff4dd;background:#294537;border:1px solid #829184;padding:6px 8px;border-radius:6px;font:inherit}
+button:disabled{opacity:.45}
+@media(prefers-reduced-motion:reduce){.slide.active>*{animation:none}}
+.market h3{font-size:34px;margin:0 0 12px}
+.market p{font-size:31px;max-width:1450px;margin:0 0 18px}
+.market a{color:#325c45}.market small{font-size:23px}
+.trade{padding:30px 38px;background:#fffaf0;border:2px solid #d7cdbe;border-radius:24px}
+.bars,.issues{display:block;margin:16px 0}
+.bars li{display:grid;grid-template-columns:115px 1fr 110px;align-items:center;gap:20px;padding:3px 0;border:0;background:none;font-size:30px}
+.bars li strong{font-size:30px;text-align:right}
+.bar{height:19px;background:#e8e1d3;border-radius:6px;overflow:hidden}
+.bar::before{content:"";display:block;width:var(--size);height:100%;background:#466e52}
+.bars li:last-child .bar::before{background:#886638}
+.issues li{font-size:30px;padding:12px 20px;margin:8px 0}
+.issues li strong{display:inline;font-size:30px}
+</style>
+</head>
+<body>
+<main class="deck-viewport">
+<div class="deck-stage">
+<section class="slide cover active">
+<h1>การจำแนกเมล็ด<br>กาแฟโรบัสตา 7 กลุ่มด้วย AI</h1>
+<p>ประยุกต์ใช้โมเดล YOLO เพื่อระบุตำแหน่งและจำแนกเมล็ดกาแฟจากลักษณะที่สังเกตได้ในภาพ</p>
+<p class="source">ภาพประกอบจากสไลด์อบรม Day 1 หน้า 1</p>
+</section>
+<section class="slide market"><h2>ตลาดเมล็ดกาแฟดิบของไทย</h2><div class="trade">
+<h3>ปริมาณส่งออกเมล็ดกาแฟดิบของไทย</h3>
+<p>รวมทุกสายพันธุ์ · หน่วยเป็นตัน</p>
+<ul class="bars">
+<li><span>2564</span><span class="bar" style="--size:12.4%"></span><strong>377</strong></li>
+<li><span>2565</span><span class="bar" style="--size:12.3%"></span><strong>374</strong></li>
+<li><span>2566</span><span class="bar" style="--size:8.4%"></span><strong>255</strong></li>
+<li><span>2567</span><span class="bar" style="--size:23.8%"></span><strong>723</strong></li>
+<li><span>2568*</span><span class="bar" style="--size:100%"></span><strong>3,041</strong></li>
+</ul>
+<p>ปี 2568* เพิ่มขึ้นประมาณ <strong>321% จากปี 2567</strong> ขณะที่ไทยนำเข้าเมล็ดกาแฟดิบประมาณ <strong>33,286 ตัน</strong> ในปีเดียวกัน</p>
+<small>* ประมาณการ · <a href="https://oae.go.th/uploads/files/2026/01/22/AD96BF9855DA.pdf">รายงาน สศก. ตาราง 13–14 อ้างอิงกรมศุลกากร</a></small>
+</div></section><section class="slide market"><h2>โจทย์ของกาแฟโรบัสตาชุมพร</h2><p>โรบัสตามีสัดส่วน <strong>32.54%</strong> ของผลผลิตกาแฟไทย ตามประมาณการปีเพาะปลูก 2568/69 โดยชุมพรเป็นหนึ่งในแหล่งผลิตสำคัญ <a href="https://zone11.oae.go.th/news-press/4617/">แหล่งข้อมูล สศก.</a></p><h3>ปัญหาที่พบในชุมพร</h3>
+<ul class="issues">
+<li><strong>การเก็บเกี่ยวแบบรวม</strong> ผลกาแฟที่เก็บมาบางส่วนยังไม่ได้คัดแยกตั้งแต่ต้นทาง</li>
+<li><strong>การตากและควบคุมความชื้น</strong> การตากที่ไม่เหมาะสมและการควบคุมความชื้นไม่เพียงพออาจทำให้ผลผลิตเสียหายจากเชื้อรา</li>
+<li><strong>แรงงานและอุปกรณ์</strong> พื้นที่มีข้อจำกัดด้านแรงงานเก็บเกี่ยวที่ชำนาญและอุปกรณ์ที่เหมาะกับกระบวนการผลิต</li>
+</ul>
+<p><small><a href="https://www.opsmoac.go.th/chumphon-performance-files-461591791853">แนวทางการพัฒนากาแฟจังหวัดชุมพร</a></small></p>
+<p>โครงการมุ่งศึกษาการใช้ AI ช่วยจำแนกลักษณะที่มองเห็นได้จากภาพเมล็ดกาแฟ เพื่อสนับสนุนการตรวจสอบคุณภาพโรบัสตาชุมพรในอนาคต ส่วนความชื้นต้องอาศัยการวัดโดยเฉพาะ</p>
+</section><section class="slide">
+<div class="example">
+<figure><img src="mask-examples.png" alt="ภาพตัวอย่างเมล็ดกาแฟพร้อมมาสก์สี"><figcaption>ตัวอย่างภาพมาสก์</figcaption></figure>
+<div><h2>การแสดงผลด้วยมาสก์</h2><p>มาสก์สีแสดงขอบเขตของเมล็ด ภาพสองช่องแสดงครบ 7 กลุ่ม</p><p>น้ำตาล: เศษเปลือก · เหลือง: เมล็ดกะลา · เขียว: เมล็ดอ่อน · ม่วง: เมล็ดดี · ฟ้า: เมล็ดหูช้าง · ดำ: เมล็ดดำ · แดง: เมล็ดแตกหัก</p></div>
+</div>
+<p class="source">ภาพประกอบจากสไลด์อบรม Day 3 หน้า 4</p>
+</section>
+<section class="slide">
+<h2>จุดสังเกตเมล็ดกาแฟ (1/2)</h2>
+<ul><li><strong>เมล็ดดี <small>Good</small></strong> ทรงสมบูรณ์ ผิวเรียบ ร่องกลางค่อนข้างปิด</li>
+<li><strong>เมล็ดหูช้าง <small>Shell</small></strong> รูปทรงโค้งคล้ายใบหู ด้านในเว้าเป็นแอ่ง</li>
+<li><strong>เมล็ดดำ <small>Full Black</small></strong> สีดำหรือเทาเข้มเกือบทั้งเมล็ด</li>
+<li><strong>เศษเปลือกเชอร์รีแห้ง <small>Hull / Husk</small></strong> สีน้ำตาลเข้ม เห็นลักษณะเป็นเปลือกแห้ง</li></ul>
+<p class="source">อ้างอิงสไลด์อบรม Day 1 หน้า 5</p>
+</section>
+<section class="slide">
+<h2>จุดสังเกตเมล็ดกาแฟ (2/2)</h2>
+<ul><li><strong>เมล็ดแตกหัก <small>Broken</small></strong> ขอบแหว่ง หรือเหลือเพียงบางส่วนของเมล็ด</li>
+<li><strong>เมล็ดกะลา <small>Parchment</small></strong> มีกะลาบางสีเหลืองครีมหุ้ม ผิวมักดูเรียบและเงา</li>
+<li><strong>เมล็ดอ่อน <small>Immature</small></strong> สีซีดอมเหลือง ร่องกลางมักเปิดกว้างและขอบย่น</li></ul>
+<p class="source">อ้างอิงสไลด์อบรม Day 1 หน้า 5</p>
+</section>
+</div>
+</main>
+<nav class="deck-controls" aria-label="ควบคุมสไลด์">
+<a href="index.html">เว็บหน้าเดียว</a>
+<button id="prev" type="button" aria-label="หน้าก่อนหน้า">←</button>
+<span id="position" aria-live="polite"></span>
+<button id="next" type="button" aria-label="หน้าถัดไป">→</button>
+<button id="full" type="button">เต็มจอ</button>
+</nav>
+<script>
+const stage = document.querySelector('.deck-stage');
+const slides = [...document.querySelectorAll('.slide')];
+const prev = document.querySelector('#prev');
+const next = document.querySelector('#next');
+const position = document.querySelector('#position');
+const full = document.querySelector('#full');
+let current = 0;
+function fit() {
+  const height = Math.max(1, innerHeight - 52);
+  const scale = Math.min(innerWidth / 1920, height / 1080);
+  stage.style.left = (innerWidth - 1920 * scale) / 2 + 'px';
+  stage.style.top = (height - 1080 * scale) / 2 + 'px';
+  stage.style.transform = 'scale(' + scale + ')';
+}
+function show(index) {
+  current = Math.max(0, Math.min(slides.length - 1, index));
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === current);
+    slide.setAttribute('aria-hidden', String(i !== current));
+  });
+  position.textContent = (current + 1) + ' / ' + slides.length;
+  prev.disabled = current === 0;
+  next.disabled = current === slides.length - 1;
+}
+prev.onclick = () => show(current - 1);
+next.onclick = () => show(current + 1);
+full.hidden = !document.fullscreenEnabled;
+full.onclick = async () => {
+  try {
+    if (document.fullscreenElement) await document.exitFullscreen();
+    else await document.documentElement.requestFullscreen();
+  } catch {
+    full.hidden = true;
+  }
+};
+addEventListener('keydown', event => {
+  if (event.altKey || event.ctrlKey || event.metaKey) return;
+  const move = {ArrowRight: current + 1, ArrowLeft: current - 1, Home: 0, End: slides.length - 1};
+  if (Object.hasOwn(move, event.key)) {
+    event.preventDefault();
+    show(move[event.key]);
+  }
+});
+addEventListener('resize', fit);
+fit();
+show(0);
+</script>
+</body>
+</html>
+
+
