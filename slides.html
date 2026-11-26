@@ -170,6 +170,28 @@ button:disabled{opacity:.45}
 .bars li:last-child .bar::before{background:#886638}
 .issues li{font-size:30px;padding:12px 20px;margin:8px 0}
 .issues li strong{display:inline;font-size:30px}
+@media screen and (max-width:760px) and (orientation:portrait){
+html,body{height:auto;overflow:visible}
+.deck-viewport{position:static;overflow:visible;padding-bottom:68px}
+.deck-stage{position:static;width:auto;height:auto;overflow:visible;transform:none!important}
+.slide{position:relative;width:auto;height:auto;padding:32px 20px;overflow:visible;visibility:visible;opacity:1;pointer-events:auto}
+.deck-ready .slide:not(.active){display:none}
+.deck-ready .slide.active{display:block;min-height:calc(100svh - 68px)}
+h1{font-size:clamp(25px,7.7vw,45px);margin-bottom:18px}
+h2{font-size:clamp(24px,6.7vw,40px);line-height:1.2;margin-bottom:15px}
+p,.market p{font-size:17px;line-height:1.55}
+.cover{background-size:cover}
+.example,ul{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+figure img{height:auto}
+figcaption{font-size:16px;padding:10px 14px}
+li,.issues li,.issues li strong,.market h3{font-size:17px;padding:9px}
+li strong{font-size:19px}
+.trade{padding:12px}.market small{font-size:13px}
+.bars li{grid-template-columns:46px minmax(0,1fr) 45px;gap:8px;font-size:15px}
+.bars li strong{font-size:15px;padding:0}
+.deck-controls{bottom:8px;bottom:max(8px,env(safe-area-inset-bottom));max-width:calc(100% - 12px)}
+html:not(.deck-ready) .deck-controls{display:none}
+}
 </style>
 </head>
 <body>
@@ -266,17 +288,19 @@ full.onclick = async () => {
 addEventListener('keydown', event => {
   if (event.altKey || event.ctrlKey || event.metaKey) return;
   const move = {ArrowRight: current + 1, ArrowLeft: current - 1, Home: 0, End: slides.length - 1};
-  if (Object.hasOwn(move, event.key)) {
+  if (Object.prototype.hasOwnProperty.call(move, event.key)) {
     event.preventDefault();
     show(move[event.key]);
   }
 });
+document.documentElement.classList.add('deck-ready');
 addEventListener('resize', fit);
 fit();
 show(0);
 </script>
 </body>
 </html>
+
 
 
 
